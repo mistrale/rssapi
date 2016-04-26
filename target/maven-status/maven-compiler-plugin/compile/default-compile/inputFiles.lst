@@ -1,6 +1,8 @@
-C:\Users\audes_000\workspace\RSSAPI\src\rss\model\FeedMessage.java
-C:\Users\audes_000\workspace\RSSAPI\src\getRSSstream.java
-C:\Users\audes_000\workspace\RSSAPI\src\UserManagement.java
-C:\Users\audes_000\workspace\RSSAPI\src\rss\utils\RSSFeedParser.java
-C:\Users\audes_000\workspace\RSSAPI\src\rss\model\User.java
-C:\Users\audes_000\workspace\RSSAPI\src\rss\model\Feed.java
+/home/sikorav/workspace/rsstek/src/main/java/com/rssapi/LogManagement.java
+/home/sikorav/workspace/rsstek/src/main/java/com/models/FeedMessage.java
+/home/sikorav/workspace/rsstek/src/main/java/com/rssapi/StreamController.java
+/home/sikorav/workspace/rsstek/src/main/java/com/utils/RSSFeedParser.java
+/home/sikorav/workspace/rsstek/src/main/java/com/rssapi/UserManagement.java
+/home/sikorav/workspace/rsstek/src/main/java/com/models/Feed.java
+/home/sikorav/workspace/rsstek/src/main/java/com/models/User.java
+/home/sikorav/workspace/rsstek/src/main/java/com/rssapi/FeedManagement.java
