@@ -1,8 +1,9 @@
-com/utils/RSSFeedParser.class
-com/models/Feed.class
-com/rssapi/FeedManagement.class
-com/models/FeedMessage.class
-com/rssapi/LogManagement.class
 com/rssapi/UserManagement.class
-com/rssapi/StreamController.class
+com/rssapi/ItemManagement.class
+com/utils/RSSFeedParser.class
+com/models/FeedMessage.class
 com/models/User.class
+com/models/Feed.class
+com/rssapi/StreamController.class
+com/rssapi/LogManagement.class
+com/rssapi/FeedManagement.class

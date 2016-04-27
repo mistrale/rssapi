@@ -1,8 +1,9 @@
-/home/sikorav/workspace/rsstek/src/main/java/com/rssapi/LogManagement.java
-/home/sikorav/workspace/rsstek/src/main/java/com/models/FeedMessage.java
-/home/sikorav/workspace/rsstek/src/main/java/com/rssapi/StreamController.java
-/home/sikorav/workspace/rsstek/src/main/java/com/utils/RSSFeedParser.java
-/home/sikorav/workspace/rsstek/src/main/java/com/rssapi/UserManagement.java
-/home/sikorav/workspace/rsstek/src/main/java/com/models/Feed.java
-/home/sikorav/workspace/rsstek/src/main/java/com/models/User.java
-/home/sikorav/workspace/rsstek/src/main/java/com/rssapi/FeedManagement.java
+/home/everywhere/rssapi/src/main/java/com/models/Feed.java
+/home/everywhere/rssapi/src/main/java/com/models/User.java
+/home/everywhere/rssapi/src/main/java/com/utils/RSSFeedParser.java
+/home/everywhere/rssapi/src/main/java/com/rssapi/FeedManagement.java
+/home/everywhere/rssapi/src/main/java/com/rssapi/ItemManagement.java
+/home/everywhere/rssapi/src/main/java/com/models/FeedMessage.java
+/home/everywhere/rssapi/src/main/java/com/rssapi/StreamController.java
+/home/everywhere/rssapi/src/main/java/com/rssapi/LogManagement.java
+/home/everywhere/rssapi/src/main/java/com/rssapi/UserManagement.java
