@@ -17,40 +17,58 @@ import com.models.Feed;
 import com.models.User;
 import com.utils.RSSFeedParser;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.DB;
+import com.mongodb.DBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.MongoClient;
+
+
 @Path("/getRSSstream")
 public class StreamController {
 
 	@Path("/")
 	@GET
 	@Produces("application/json")
-	public Response getStream(@QueryParam("stream") String stream)throws JSONException {
-		try {
-			MongoClient mongo = new MongoClient( "localhost" , 27017 );
-			List<String> dbs = mongo.getDatabaseNames();
-			for(String db : dbs){
-				System.out.println(db);
-			}
-		} catch (UnknownHostException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
-
-		
-		JSONObject jsonObject = new JSONObject();
-	
-	    try {
-	    	    RSSFeedParser parser = new RSSFeedParser(stream);
-	    	Feed feed = parser.readFeed();
-	    	
-	    	    jsonObject.put("feed", feed.toJson());
-	    	    jsonObject.put("message", "ok");
-	    	    jsonObject.put("status", 200);
-	    } catch (Exception e) {
-	    	jsonObject.put("feed", JSONObject.NULL);
-	    	jsonObject.put("message", "invalid stream");
-	    	jsonObject.put("status", 403);
-	    }
+	public Response getStream(@QueryParam("stream") String stream,
+				  @QueryParam("token") String token)throws JSONException {
+	    JSONObject jsonObject = new JSONObject();
+	    int status = 200;
 	    
-	    return Response.status(200).entity(jsonObject.toString()).build();
+	    try {
+		MongoClient mongo = new MongoClient( "localhost" , 27017 );
+		DB db = mongo.getDB( "rssapidatabase" );
+		
+		DBCollection collection = db.getCollection("user");
+		BasicDBObject user = new BasicDBObject();
+		user.put("token", token);
+	    
+		DBCursor cursor = collection.find(user);
+		if (cursor.count() != 0) {
+		    RSSFeedParser parser = new RSSFeedParser(stream);
+		    Feed feed = parser.readFeed();
+		    
+		    jsonObject.put("feed", feed.toJson());
+		    jsonObject.put("message", "ok");
+		    jsonObject.put("status", 200);
+ 		
+		} else {
+		    jsonObject.put("message", "wrong token");
+		    jsonObject.put("status", 400);
+		    jsonObject.put("response", JSONObject.NULL);
+		    status = 400;
+		}       		
+	    } catch (Exception e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+		jsonObject.put("message", "invalid stream");
+		jsonObject.put("status", 400);
+		jsonObject.put("response", JSONObject.NULL);
+		status = 400;
+	    }
+	
+	    return Response.status(status).entity(jsonObject.toString()).build();
+
  	}
 }
