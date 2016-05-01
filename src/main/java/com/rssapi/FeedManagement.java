@@ -37,14 +37,21 @@ public class FeedManagement {
 		JSONObject jsonObject = new JSONObject();
 		int status = 200;
 
+		if (link.isEmpty() || title.isEmpty() || description.isEmpty() || language.isEmpty()
+				|| copyright.isEmpty() || pubdate.isEmpty()) {
+					jsonObject.put("message", "field cannot be blank saved");
+					jsonObject.put("response", JSONObject.NULL);
+					jsonObject.put("status", 400);
+					return Response.status(status).entity(jsonObject.toString()).build();
+				}
 		try {
 		    MongoClient mongo = new MongoClient( "localhost" , 27017 );
 		    DB db = mongo.getDB( "rssapidatabase" );
-		    
+
 		    DBCollection collection = db.getCollection("user");
 		    BasicDBObject user = new BasicDBObject();
 		    user.put("token", token);
-		    
+
 		    DBCursor cursor = collection.find(user);
 		    if (cursor.count() != 0) {
 			DBObject	obj = cursor.next();
@@ -53,7 +60,7 @@ public class FeedManagement {
 
 			// check existance of feed in db
 			DBCollection feedDb = db.getCollection("feed");
-			
+
 
 			// create feed favoris
 			BasicDBObject feed = new BasicDBObject();
@@ -73,8 +80,8 @@ public class FeedManagement {
 			    jsonObject.put("response", JSONObject.NULL);
 			} else {
 			    jsonObject.put("message", "feed already saved");
-			    jsonObject.put("status", 200);
-			    jsonObject.put("response", JSONObject.NULL);			    
+			    jsonObject.put("status", 400);
+			    jsonObject.put("response", JSONObject.NULL);
 			    status = 400;
 			}
 		    } else {
@@ -82,7 +89,7 @@ public class FeedManagement {
 			jsonObject.put("status", 400);
 			jsonObject.put("response", JSONObject.NULL);
 			status = 400;
-		    }       		
+		    }
 		} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -105,11 +112,11 @@ public class FeedManagement {
 		try {
 		    MongoClient mongo = new MongoClient( "localhost" , 27017 );
 		    DB db = mongo.getDB( "rssapidatabase" );
-		    
+
 		    DBCollection collection = db.getCollection("user");
 		    BasicDBObject user = new BasicDBObject();
 		    user.put("token", token);
-		    
+
 		    DBCursor cursor = collection.find(user);
 		    if (cursor.count() != 0) {
 			DBObject	obj = cursor.next();
@@ -118,15 +125,15 @@ public class FeedManagement {
 
 			// check existance of feed in db
 			DBCollection feedDb = db.getCollection("feed");
-			
-		  
+
+
 			// create feed favoris
 			BasicDBObject feed = new BasicDBObject();
 			feed.put("id_user", id);
-			
+
 			DBCursor cursorFeed = feedDb.find(feed);
 			JSONArray array = new JSONArray();
-			
+
 			while (cursorFeed.hasNext()) {
 			    JSONObject find = new JSONObject();
 			    DBObject cursorObj = cursorFeed.next();
@@ -144,13 +151,13 @@ public class FeedManagement {
 			jsonObject.put("status", 200);
 			jsonObject.put("response", array);
 
-			
+
 		    } else {
 			jsonObject.put("message", "wrong token");
 			jsonObject.put("status", 400);
 			jsonObject.put("response", JSONObject.NULL);
 			status = 400;
-		    }       		
+		    }
 		} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -169,27 +176,27 @@ public class FeedManagement {
     public Response getFeed(@QueryParam("token") String token, @QueryParam("id") String id) throws JSONException {
 	JSONObject jsonObject = new JSONObject();
 	int status = 200;
-	
+
 	try {
 	    MongoClient mongo = new MongoClient( "localhost" , 27017 );
 	    DB db = mongo.getDB( "rssapidatabase" );
-	    
+
 	    DBCollection collection = db.getCollection("user");
 	    BasicDBObject user = new BasicDBObject();
 	    user.put("token", token);
-	    
+
 	    DBCursor cursor = collection.find(user);
 	    if (cursor.count() != 0) {
 		// check existance of feed in db
 		DBCollection feedDb = db.getCollection("feed");
-		
-		
+
+
 			// create feed favoris
 
 		BasicDBObject feed = new BasicDBObject();
 
 		feed.put("_id", new ObjectId(id));
-		
+
 	        DBCursor cursorFeed = feedDb.find(feed);
 
 		if (cursorFeed.count() == 0) {
@@ -197,21 +204,22 @@ public class FeedManagement {
 		    jsonObject.put("message", "unknown feed id");
 		    jsonObject.put("status",  400);
 		    jsonObject.put("response", JSONObject.NULL);
+				status = 400;
 		} else {
 		    DBObject test = cursorFeed.next();
-		    
+
 		    feedDb.remove(test);
 		    jsonObject.put("message", "feed remove successfully");
 		    jsonObject.put("status", 200);
 		    jsonObject.put("response", JSONObject.NULL);
-		}		
-		
+		}
+
 	    } else {
 		jsonObject.put("message", "wrong token");
 		jsonObject.put("status", 400);
 		jsonObject.put("response", JSONObject.NULL);
 		status = 400;
-	    }       		
+	    }
 	} catch (UnknownHostException e1) {
 			// TODO Auto-generated catch block
 	    e1.printStackTrace();
@@ -220,8 +228,8 @@ public class FeedManagement {
 	    jsonObject.put("response", JSONObject.NULL);
 	    status = 400;
 	}
-	
+
 	return Response.status(status).entity(jsonObject.toString()).build();
     }
-    
+
 }

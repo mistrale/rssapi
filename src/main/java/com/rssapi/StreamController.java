@@ -35,30 +35,30 @@ public class StreamController {
 				  @QueryParam("token") String token)throws JSONException {
 	    JSONObject jsonObject = new JSONObject();
 	    int status = 200;
-	    
+
 	    try {
 		MongoClient mongo = new MongoClient( "localhost" , 27017 );
 		DB db = mongo.getDB( "rssapidatabase" );
-		
+
 		DBCollection collection = db.getCollection("user");
 		BasicDBObject user = new BasicDBObject();
 		user.put("token", token);
-	    
+
 		DBCursor cursor = collection.find(user);
 		if (cursor.count() != 0) {
 		    RSSFeedParser parser = new RSSFeedParser(stream);
 		    Feed feed = parser.readFeed();
-		    
+
 		    jsonObject.put("feed", feed.toJson());
 		    jsonObject.put("message", "ok");
 		    jsonObject.put("status", 200);
- 		
+
 		} else {
 		    jsonObject.put("message", "wrong token");
 		    jsonObject.put("status", 400);
 		    jsonObject.put("response", JSONObject.NULL);
 		    status = 400;
-		}       		
+		}
 	    } catch (Exception e1) {
 		// TODO Auto-generated catch block
 		e1.printStackTrace();
@@ -67,7 +67,7 @@ public class StreamController {
 		jsonObject.put("response", JSONObject.NULL);
 		status = 400;
 	    }
-	
+
 	    return Response.status(status).entity(jsonObject.toString()).build();
 
  	}

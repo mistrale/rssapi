@@ -29,9 +29,7 @@ ADD src /code/src
 RUN ["mvn", "verify"]
 RUN ["mvn", "package"]
 
-RUN ip address
 
-RUN ls
-
-EXPOSE 4567
+EXPOSE 8081
 CMD ["mvn", "tomcat:run", "-Dmaven.tomcat.port=8081"]
+ 
